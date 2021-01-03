@@ -238,6 +238,8 @@ func (s *server) handle(client net.Conn) {
 	go func() {
 		var buf [1]byte
 		if _, err := io.ReadFull(client, buf[:]); err != nil {
+			close(sig)
+			client.Close()
 			return
 		}
 		close(sig)
